@@ -78,6 +78,19 @@ cd frontend && npm run lint && npm run build
 
 CI (`.github/workflows/ci.yml`) runs the same checks plus a Docker build on every push and pull request.
 
+## Publish the frontend on GitHub Pages
+
+The repository URL (the page with the README) and the published site URL are different. To publish the app, open
+**Settings → Pages** and set the build and deployment source to **GitHub Actions**. The workflow in
+`.github/workflows/pages.yml` publishes the frontend on each push to `main`; after it completes, open the Pages URL
+shown in that workflow's deployment summary (usually `https://<owner>.github.io/waterwatch-sa/`).
+
+GitHub Pages hosts only static files. To use features that read or change incidents, deploy the FastAPI backend
+separately and add a repository Actions variable named `VITE_API_URL` containing its public base URL, then run the
+Pages workflow again. Configure the backend's `CORS_ORIGINS` to include the Pages origin
+(`https://<owner>.github.io`, without the repository path). Without the API, the frontend can load but its data and
+account features will not work.
+
 ## Project layout
 
 ```
